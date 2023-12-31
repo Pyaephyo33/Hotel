@@ -20,7 +20,12 @@ Route::get('/test', function(){
 
 Route::get('/', function () {
     return view('welcome');
+})->middleware(['auth','verified'])->name('welcome');
+
+Route::get('/master', function(){
+    return view('admin.layouts.master');
 });
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
