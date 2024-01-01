@@ -19,12 +19,8 @@ Route::get('/test', function(){
 
 
 Route::get('/', function () {
-    return view('welcome');
-})->middleware(['auth','verified'])->name('welcome');
-
-Route::get('/master', function(){
     return view('admin.layouts.master');
-});
+})->middleware(['auth','verified'])->name('master');
 
 
 Route::get('/dashboard', function () {
