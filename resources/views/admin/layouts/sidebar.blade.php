@@ -1,6 +1,6 @@
 <div class="flex-1 px-3 bg-white divide-y space-y-1">
     <ul class="space-y-2 pb-2">
-       <li>
+       {{-- <li>
           <form action="#" method="GET" class="lg:hidden">
              <label for="mobile-search" class="sr-only">Search</label>
              <div class="relative">
@@ -12,7 +12,7 @@
                 <input type="text" name="email" id="mobile-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-600 focus:ring-cyan-600 block w-full pl-10 p-2.5" placeholder="Search">
              </div>
           </form>
-       </li>
+       </li> --}}
        <li>
           <a href="#" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
              <svg class="w-6 h-6 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
