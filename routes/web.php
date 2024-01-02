@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\{RoomTypeController};
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,10 +23,24 @@ Route::get('/', function () {
     return view('admin.layouts.master');
 })->middleware(['auth','verified'])->name('master');
 
+Route::middleware('auth')->prefix('admin')->group(function(){
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    ## room type
+    Route::resource('roomTypes', RoomTypeController::class);
+    Route::get('search-room-types', [RoomTypeController::class, 'search']);
+    Route::get('roomTypes/status/{id}', [RoomTypeController::class, 'change_status']);
+});
+
+
+
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
