@@ -7,7 +7,7 @@
     <title>Sidebar</title>
     @vite('resources/css/app.css')
 </head>
-<body class="h-full">
+<body class="h-full font-mono">
 
     <!-- component -->
 <!-- This is an example component -->
