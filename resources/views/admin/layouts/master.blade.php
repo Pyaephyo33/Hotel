@@ -739,6 +739,39 @@
                     </div>
                 </div>
              </div>
+
+             <!-- Example Form Format with tailwind and daisy ui -->
+             <div class="p-6 px-4">
+                <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="form-control w-full">
+                            <div class="label">
+                              <span class="label-text-2xl">Name</span>
+                            </div>
+                            <input type="text" placeholder="Enter Name" class="input input-bordered input-md w-full" />
+                          </label>
+                        </div>
+                        <div>
+                            <label class="form-control w-full">
+                            <div class="label">
+                              <span class="label-text-2xl">Email</span>
+                            </div>
+                            <input type="text" placeholder="Enter Name" class="input input-bordered w-full"  />
+                          </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="form-control w-full">
+                        <div class="label">
+                          <span class="label-text-2xl">Email</span>
+                        </div>
+                        <input type="text" placeholder="Enter Name" class="input input-bordered w-full"  />
+                      </label>
+                    </div>
+                </div>
+             </div>
           </main>
 
           {{-- @include('admin.layouts.footer') --}}
