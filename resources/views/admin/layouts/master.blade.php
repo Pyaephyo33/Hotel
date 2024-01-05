@@ -592,13 +592,13 @@
                     </div>
 
                     <div>
-                        <label class="form-control w-full">
-                        <div class="label">
-                          <span class="label-text-2xl">Email</span>
-                        </div>
-                        <input type="text" placeholder="Enter Email" class="input input-bordered w-full"  />
-                      </label>
-                    </div>
+                       <label class="form-control w-full">
+                       <div class="label">
+                         <span class="label-text-2xl">Address</span>
+                       </div>
+                       <textarea cols="30" rows="4" placeholder="Enter Address" class="textarea textarea-bordered w-full"></textarea>
+                     </label>
+                   </div>
                 </div>
              </div> --}}
           </main>
