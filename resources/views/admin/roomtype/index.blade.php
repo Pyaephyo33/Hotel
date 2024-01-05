@@ -5,23 +5,6 @@
 
 <div class="p-6 px-4">
     <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-        {{-- <div class="flex items-center">
-            <h5 class="card-title">Type List</h5>
-        </div> --}}
-        {{-- <div class="flex-grow">
-            <form action="{{url('admin/search-room-types')}}" class="float-right mt-3" method="get">
-                @csrf
-                <div class="flex items-center">
-                    <input type="text" name="search" class="form-input" placeholder="Search">
-                    <div class="ml-2">
-                        <button type="submit" class="">Search</button>
-                        <a href="{{ url('admin/roomTypes/create') }}" class="">
-
-                        </a>
-                    </div>
-                </div>
-            </form>
-        </div> --}}
 
         <div class="grid grid-cols-6 gap-4 mb-5">
             <div class="col-start-1 col-end-3">
