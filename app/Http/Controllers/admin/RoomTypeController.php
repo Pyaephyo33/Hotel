@@ -40,7 +40,7 @@ class RoomTypeController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|unique:room_types,',
+            'name' => 'required|unique:room_types,name',
         ]);
         $this->roomTypeRepository->storeRoomType($data);
         return redirect('admin/roomTypes')->with('success', 'Room Type Created Successfully');
