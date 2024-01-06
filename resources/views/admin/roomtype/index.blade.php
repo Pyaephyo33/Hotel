@@ -3,6 +3,8 @@
 @section('subtitle', 'Form')
 @section('content')
 
+<x-flash-message />
+
 <div class="p-6 px-4">
     <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
 
@@ -68,5 +70,6 @@
           </div>
     </div>
  </div>
+ 
 
 @endsection

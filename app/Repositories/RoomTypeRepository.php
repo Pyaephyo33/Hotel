@@ -7,7 +7,7 @@ class RoomTypeRepository implements RoomTypeRepositoryInterface
 {
     public function allRoomTypes()
     {
-        return RoomType::orderBy('id', 'asc')->paginate(10);
+        return RoomType::orderBy('id', 'desc')->paginate(10);
     }
 
     public function storeRoomType($data)
