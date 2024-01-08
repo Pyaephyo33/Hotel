@@ -10,16 +10,18 @@
 
         <div class="grid grid-cols-6 gap-4 mb-5">
             <div class="col-start-1 col-end-3">
+              <a href="{{ url('admin/roomTypes') }}">
                 <h5 class="card-title">Type List</h5>
+              </a>
             </div>
             <div class="col-end-7 col-span-2">
                 <form action="{{url('admin/search-room-types')}}" class="float-right" method="GET">
                     @csrf
                     <div class="flex items-center">
-                        <input type="text" name="search" class="input input-bordered w-full" placeholder="Search">
+                        <input type="text" name="search" class="input input-bordered btn-sm w-full" placeholder="Search">
                         <div class="flex space-x-2 mx-2">
-                            <button type="submit" class="btn btn-outline">Search</button>
-                            <a href="{{url('admin/roomTypes/create')}}" class="flex items-center btn btn-outline btn-primary hover:text-white">
+                            <button type="submit" class="btn btn-outline btn-sm">Search</button>
+                            <a href="{{url('admin/roomTypes/create')}}" class="flex items-center btn btn-outline btn-sm btn-primary hover:text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                                     <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
                                 </svg>
