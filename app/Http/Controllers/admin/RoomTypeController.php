@@ -86,7 +86,7 @@ class RoomTypeController extends Controller
     public function destroy(string $id)
     {
         $this->roomTypeRepository->destroyRoomType($id);
-        return back()->with('deleted', 'Room Type Deleted Successfully');
+        return redirect('admin/roomTypes')->with('deleted', 'Room Type Deleted Successfully');
     }
 
     public function change_status(Request $request)
