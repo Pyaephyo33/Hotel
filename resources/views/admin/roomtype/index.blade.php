@@ -67,23 +67,21 @@
                   </td>
                 </tr>
 
-                {{-- Delete Modal --}}
-                <dialog id="deleteModal{{ $roomType->id }}" class="modal">
-                  <div class="modal-box">
-                      <h3 class="font-bold text-lg text-yellow-600">Delete Confirm!</h3>
-                      <p class="py-4">Are you sure you want to delete?</p>
-                      <div class="modal-action">
-                          <form id="deleteForm{{ $roomType->id }}" action="{{ url('admin/roomTypes/' . $roomType->id) }}" method="post">
-                              @csrf
-                              @method('delete')
-                              <button type="button" onclick="submitForm('{{ $roomType->id }}')" class="btn btn-error btn-sm">Delete</button>
-                              <button type="button" onclick="document.getElementById('deleteModal{{ $roomType->id }}').close()" class="btn btn-sm">Close</button>
-                          </form>
-                      </div>
-                  </div>
-              </dialog>
-
-
+                  {{-- Delete Modal --}}
+                  <dialog id="deleteModal{{ $roomType->id }}" class="modal">
+                    <div class="modal-box">
+                        <h3 class="font-bold text-lg text-yellow-600">Delete Confirm!</h3>
+                        <p class="py-4">Are you sure you want to delete?</p>
+                        <div class="modal-action">
+                            <form id="deleteForm{{ $roomType->id }}" action="{{ url('admin/roomTypes/' . $roomType->id) }}" method="post">
+                                @csrf
+                                @method('delete')
+                                <button type="button" onclick="submitForm('{{ $roomType->id }}')" class="btn btn-error btn-sm">Delete</button>
+                                <button type="button" onclick="document.getElementById('deleteModal{{ $roomType->id }}').close()" class="btn btn-sm">Close</button>
+                            </form>
+                        </div>
+                    </div>
+                  </dialog>
                 @endforeach
               </tbody>
             </table>
