@@ -47,11 +47,11 @@
                   <td>{{ $roomType->name }}</td>
                   <td>
                     @if($roomType->status == true)
-                        <span class="badge badge-accent badge-outline">Available</span>
+                        <span class="badge badge-accent badge-outline" onclick="openModal('{{ $roomType->id }}')">Available</span>
                     @else
-                        <span class="badge badge-outline">Inavailable</span>
+                        <span class="badge badge-outline" onclick="openModal('{{ $roomType->id }}')">Unavailable</span>
                     @endif
-                  </td>
+                </td>
                   <td class="flex space-x-2">
                     <a href="{{url('admin/roomTypes/'.$roomType->id.'/edit')}}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-cyan-700 flex-shrink-0 group-hover:text-gray-900 transition duration-75">
@@ -82,6 +82,22 @@
                         </div>
                     </div>
                   </dialog>
+
+
+                  <dialog id="statusModal{{ $roomType->id }}" class="modal">
+                    <div class="modal-box">
+                        <h3 class="font-bold text-lg text-yellow-600">Change Status Confirm!</h3>
+                        <p class="py-4">Are you sure you want to change the status?</p>
+                        <div class="modal-action">
+                            <form id="statusForm{{ $roomType->id }}" action="{{ url('admin/roomTypes/status/' . $roomType->id) }}" method="post">
+                                @csrf
+                                @method('get') <!-- Assuming you are updating the status, so use PUT method -->
+                                <button type="button" onclick="submitForm('{{ $roomType->id }}')" class="btn btn-warning btn-sm">Change</button>
+                                <button type="button" onclick="closeModal('{{ $roomType->id }}')" class="btn btn-sm">Close</button>
+                            </form>
+                        </div>
+                    </div>
+                </dialog>
                 @endforeach
               </tbody>
             </table>
@@ -95,6 +111,18 @@
         document.getElementById('deleteForm' + id).submit();
         // Close the modal
         document.getElementById('deleteModal' + id).close();
+    }
+
+    function openModal(roomTypeId) {
+        document.getElementById('statusModal' + roomTypeId).showModal();
+    }
+
+    function closeModal(roomTypeId) {
+        document.getElementById('statusModal' + roomTypeId).close();
+    }
+
+    function submitForm(roomTypeId) {
+        document.getElementById('statusForm' + roomTypeId).submit();
     }
  </script>
 @endsection
