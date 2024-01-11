@@ -109,7 +109,7 @@ class RoomController extends Controller
             DB::beginTransaction();
 
             $data = $request->validate([
-                'picture' => 'required|image|mimes:jpeg,jpg,png,gif',
+                'picture' => 'nullable|image|mimes:jpeg,jpg,png,gif',
                 'name' => 'required',
                 'room_type_id' => 'required',
                 'person' => 'required',
@@ -125,11 +125,13 @@ class RoomController extends Controller
                 // add image path to the data array
                 $data['picture'] = $imageName;
             } else {
-                // If no file is uploaded, you can set $data['picture'] to a default image path or keep it as null.
-                // For example, set it to null if you don't want to display any image.
-                $data['picture'] = null;
+                // If no file is uploaded, you might want to keep the existing image or handle it based on your requirements.
+                // For example, you could keep the existing image path in the database.
+                $existingRoom = $this->roomRepository->findRoom($id); // Assuming a method to retrieve existing room details by ID
+                $data['picture'] = $existingRoom->picture;
             }
-            $this->roomRepository->updateRoom($id, $data);
+
+            $this->roomRepository->updateRoom($data, $id);
 
             DB::commit();
 

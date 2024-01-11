@@ -57,7 +57,7 @@
                     @endif
                   </td>
                   <td>{{ $room->name }}</td>
-                  <td>{{ $room->roomType ? $room->roomType->name : 'N/A' }}</td>
+                  <td>{{ $room->roomType->name }}</td>
                   <td>{{ $room->person }}</td>
                   <td>$ {{ $room->price }}</td>
                   <td>{{ $room->code }}</td>
@@ -68,7 +68,7 @@
                         <span class="badge badge-outline" onclick="openModal('{{ $room->id }}')">Unavailable</span>
                     @endif
                 </td>
-                  <td class="flex space-x-2">
+                  <td>
                     <a href="{{url('admin/rooms/'.$room->id.'/edit')}}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-cyan-700 flex-shrink-0 group-hover:text-gray-900 transition duration-75">
                             <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />

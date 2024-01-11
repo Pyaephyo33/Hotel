@@ -11,7 +11,7 @@ class Room extends Model
 
     protected $guarded=[];
 
-    public function roomTypes() {
+    public function roomType() {
         return $this->belongsTo(RoomType::class, 'room_type_id')->withDefault();
     }
 }

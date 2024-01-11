@@ -53,22 +53,22 @@
                 </div>
                 <div>
                     <label class="form-control w-full my-1">
-                    <div class="label">
-                      <span class="label-text-2xl">Room Type</span>
-                    </div>
-                    <select name="room_type_id" id="" class="select select-bordered w-full @error('room_type_id') select-error @enderror">
-                        <option disabled selected>Select Type</option>
-                        @foreach($roomTypes as $roomType)
-                            <option value="{{ $roomType->id }}"
-                                {{ $roomType->id == $room->room_type_id || old('room_type_id') == $roomType->id ? 'selected' : '' }}>
-                                {{ $roomType->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('room_type_id')
-                        <span class="text-sm text-red-500">{{ $message }}</span>
-                    @enderror
-                  </label>
+                        <div class="label">
+                            <span class="label-text-2xl">Room Type</span>
+                        </div>
+                        <select name="room_type_id" id="" class="select select-bordered w-full @error('room_type_id') select-error @enderror">
+                            <option disabled selected>Select Type</option>
+                            @foreach($roomTypes as $roomType)
+                                <option value="{{ $roomType->id }}"
+                                    {{ $roomType->id == $room->room_type_id || old('room_type_id') == $roomType->id ? 'selected' : '' }}>
+                                    {{ $roomType->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('room_type_id')
+                            <span class="text-sm text-red-500">{{ $message }}</span>
+                        @enderror
+                    </label>
                 </div>
                 <div>
                     <label class="form-control w-full my-1">
