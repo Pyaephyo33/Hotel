@@ -23,12 +23,13 @@ class RoomRepository implements RoomRepositoryInterface
     public function updateRoom($data, $id)
     {
         $room = Room::where('id', $id)->first();
-        if(isset($data['name'])) {
-            $room->name = $data['name'];
-        }
 
         if(isset($data['picture'])) {
             $room->picture = $data['picture'];
+        }
+
+        if(isset($data['name'])) {
+            $room->name = $data['name'];
         }
 
         if(isset($data['room_type_id'])) {

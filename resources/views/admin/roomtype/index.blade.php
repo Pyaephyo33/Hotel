@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title', 'Room Type')
-@section('subtitle', 'Form')
+@section('subtitle', 'List')
 @section('content')
 
 <x-flash-message />
@@ -92,7 +92,7 @@
                             <form id="statusForm{{ $roomType->id }}" action="{{ url('admin/roomTypes/status/' . $roomType->id) }}" method="post">
                                 @csrf
                                 @method('get') <!-- Assuming you are updating the status, so use PUT method -->
-                                <button type="button" onclick="submitForm('{{ $roomType->id }}')" class="btn btn-warning btn-sm">Change</button>
+                                <button type="button" onclick="submitStatusForm('{{ $roomType->id }}')" class="btn btn-warning btn-sm">Change</button>
                                 <button type="button" onclick="closeModal('{{ $roomType->id }}')" class="btn btn-sm">Close</button>
                             </form>
                         </div>
@@ -109,7 +109,7 @@
    function submitForm(id) {
         // Trigger form submission
         document.getElementById('deleteForm' + id).submit();
-        // Close the modal
+        // Close the delete modal
         document.getElementById('deleteModal' + id).close();
     }
 
@@ -121,7 +121,7 @@
         document.getElementById('statusModal' + roomTypeId).close();
     }
 
-    function submitForm(roomTypeId) {
+    function submitStatusForm(roomTypeId) {
         document.getElementById('statusForm' + roomTypeId).submit();
     }
  </script>

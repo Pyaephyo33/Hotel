@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\admin\{RoomTypeController};
+use App\Http\Controllers\admin\{RoomController, RoomTypeController};
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +29,12 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     Route::resource('roomTypes', RoomTypeController::class);
     Route::get('search-room-types', [RoomTypeController::class, 'search']);
     Route::get('roomTypes/status/{id}', [RoomTypeController::class, 'change_status']);
+
+
+    ## room
+    Route::resource('rooms', RoomController::class);
+    Route::get('search-rooms', [RoomController::class, 'search']);
+    Route::get('rooms/status/{id}', [RoomController::class, 'change_status']);
 });
 
 
