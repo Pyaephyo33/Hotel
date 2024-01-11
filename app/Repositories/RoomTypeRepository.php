@@ -42,6 +42,6 @@ class RoomTypeRepository implements RoomTypeRepositoryInterface
 
     public function searchRoomType($searchData)
     {
-        return RoomType::where('name','ilike',$searchData)->orWhere('status','like', $searchData)->paginate(10);
+        return RoomType::where('name','ilike',$searchData)->orWhere('status','like', $searchData)->get();
     }
 }

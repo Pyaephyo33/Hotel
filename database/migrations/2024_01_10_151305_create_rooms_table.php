@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('picture');
-            $table->unsignedBigInteger('roomtype_id');
+            $table->unsignedBigInteger('room_type_id');
             $table->string('person');
             $table->string('price');
+            $table->string('code');
+            $table->string('status')->default(true || 1);
             $table->timestamps();
         });
     }
