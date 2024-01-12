@@ -36,6 +36,7 @@
               <thead>
                 <tr>
                   <th>#</th>
+                  <th>QR</th>
                   <th>Room</th>
                   <th>No</th>
                   <th>Type</th>
@@ -49,6 +50,9 @@
                 @foreach($rooms as $room)
                 <tr>
                   <th>{{ $room->id }}</th>
+                  <td id="qrCodeContainer" style="cursor: pointer;" onclick="printQrCode()">
+                    {!! $room->generateQrCode() !!}
+                  </td>
                   <td>
                     @if($room->picture && $room->picture != 'No Image Available')
                         <img src="{{ asset('rooms/' . $room->picture) }}" alt="Image" class="max-w-20 rounded">
@@ -63,9 +67,9 @@
                   <td>{{ $room->code }}</td>
                   <td>
                     @if($room->status == true)
-                        <span class="badge badge-accent badge-outline" onclick="openModal('{{ $room->id }}')">Available</span>
+                        <span class="badge badge-accent badge-outline" onclick="document.getElementById('statusModal{{ $room->id }}').showModal()">Available</span>
                     @else
-                        <span class="badge badge-outline" onclick="openModal('{{ $room->id }}')">Unavailable</span>
+                        <span class="badge badge-outline" onclick="document.getElementById('statusModal{{ $room->id }}').showModal()">Unavailable</span>
                     @endif
                 </td>
                   <td>
@@ -92,7 +96,7 @@
                             <form id="deleteForm{{ $room->id }}" action="{{ url('admin/rooms/' . $room->id) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button type="button" onclick="submitForm('{{ $room->id }}')" class="btn btn-error btn-sm">Delete</button>
+                                <button type="button" onclick="submitDeleteForm('{{ $room->id }}')" class="btn btn-error btn-sm">Delete</button>
                                 <button type="button" onclick="document.getElementById('deleteModal{{ $room->id }}').close()" class="btn btn-sm">Close</button>
                             </form>
                         </div>
@@ -108,8 +112,8 @@
                             <form id="statusForm{{ $room->id }}" action="{{ url('admin/rooms/status/' . $room->id) }}" method="post">
                                 @csrf
                                 @method('get') <!-- Assuming you are updating the status, so use PUT method -->
-                                <button type="button" onclick="submitStatusForm('{{ $room->id }}')" class="btn btn-warning btn-sm">Change</button>
-                                <button type="button" onclick="closeModal('{{ $room->id }}')" class="btn btn-sm">Close</button>
+                                <button type="button" onclick="changeStatus('{{ $room->id }}')" class="btn btn-warning btn-sm">Change</button>
+                                <button type="button" onclick="document.getElementById('statusModal{{ $room->id }}').close()" class="btn btn-sm">Close</button>
                             </form>
                         </div>
                     </div>
@@ -122,23 +126,33 @@
  </div>
 
  <script>
-   function submitForm(id) {
-        // Trigger form submission
-        document.getElementById('deleteForm' + id).submit();
-        // Close the delete modal
-        document.getElementById('deleteModal' + id).close();
-    }
-
-    function openModal(roomId) {
-        document.getElementById('statusModal' + roomId).showModal();
-    }
-
-    function closeModal(roomId) {
-        document.getElementById('statusModal' + roomId).close();
-    }
-
-    function submitStatusForm(roomId) {
-        document.getElementById('statusForm' + roomId).submit();
-    }
+      function printQrCode() {
+            var qrCodeContent = getQrCodeContent();
+            
+            if (qrCodeContent) {
+                var printWindow = window.open('', '_blank');
+                
+                printWindow.document.open();
+                printWindow.document.write('<html><head><title>Print QR Code</title></head><body>');
+                printWindow.document.write(qrCodeContent);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                
+                // Wait for the content to be loaded before triggering print
+                printWindow.onload = function() {
+                    printWindow.print();
+                    printWindow.onafterprint = function() {
+                        printWindow.close();
+                    };
+                };
+            } else {
+                console.error("QR code not found.");
+            }
+        }
+    
+        function getQrCodeContent() {
+            var qrCodeContainer = document.getElementById('qrCodeContainer');
+            return qrCodeContainer ? qrCodeContainer.innerHTML : '';
+      }
  </script>
 @endsection

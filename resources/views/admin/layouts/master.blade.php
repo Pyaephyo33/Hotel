@@ -25,7 +25,7 @@
                    </svg>
                 </button>
                 <a href="#" class="text-xl font-bold flex items-center lg:ml-2.5">
-                <img src="{{ asset('images/raven.jpg')}}" class="h-6 mr-2 rounded-sm" alt="Windster Logo">
+                <img src="{{ asset('raven.jpg') }}" class="h-6 mr-2 rounded-sm" alt="Windster Logo">
                 <span class="self-center whitespace-nowrap">Reservation</span>
                 </a>
                 {{-- <form action="#" method="GET" class="hidden lg:block lg:pl-32">
@@ -609,6 +609,24 @@
           </p> --}}
        </div>
     </div>
+
+    <script>
+      // for delete modal function 
+
+      function submitDeleteForm(id) {
+         // Trigger form submission
+         document.getElementById('deleteForm' + id).submit();
+         // Close the modal
+         document.getElementById('deleteModal' + id).close();
+      }
+      function changeStatus(id)
+      {
+         // Trigger form submission
+         document.getElementById('statusForm' + id).submit();
+         // Close the modal
+         document.getElementById('statusModal' + id).close();
+      }
+    </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="https://demo.themesberg.com/windster/app.bundle.js"></script>
  </div>

@@ -47,9 +47,9 @@
                   <td>{{ $roomType->name }}</td>
                   <td>
                     @if($roomType->status == true)
-                        <span class="badge badge-accent badge-outline" onclick="openModal('{{ $roomType->id }}')">Available</span>
+                        <span class="badge badge-accent badge-outline" onclick="document.getElementById('statusModal{{ $roomType->id }}').showModal()">Available</span>
                     @else
-                        <span class="badge badge-outline" onclick="openModal('{{ $roomType->id }}')">Unavailable</span>
+                        <span class="badge badge-outline" onclick="document.getElementById('statusModal{{ $roomType->id }}').showModal()">Unavailable</span>
                     @endif
                 </td>
                   <td class="flex space-x-2">
@@ -76,7 +76,7 @@
                             <form id="deleteForm{{ $roomType->id }}" action="{{ url('admin/roomTypes/' . $roomType->id) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button type="button" onclick="submitForm('{{ $roomType->id }}')" class="btn btn-error btn-sm">Delete</button>
+                                <button type="button" onclick="submitDeleteForm('{{ $roomType->id }}')" class="btn btn-error btn-sm">Delete</button>
                                 <button type="button" onclick="document.getElementById('deleteModal{{ $roomType->id }}').close()" class="btn btn-sm">Close</button>
                             </form>
                         </div>
@@ -92,8 +92,8 @@
                             <form id="statusForm{{ $roomType->id }}" action="{{ url('admin/roomTypes/status/' . $roomType->id) }}" method="post">
                                 @csrf
                                 @method('get') <!-- Assuming you are updating the status, so use PUT method -->
-                                <button type="button" onclick="submitStatusForm('{{ $roomType->id }}')" class="btn btn-warning btn-sm">Change</button>
-                                <button type="button" onclick="closeModal('{{ $roomType->id }}')" class="btn btn-sm">Close</button>
+                                <button type="button" onclick="changeStatus('{{ $roomType->id }}')" class="btn btn-warning btn-sm">Change</button>
+                                <button type="button" onclick="document.getElementById('statusModal{{ $roomType->id }}').close()" class="btn btn-sm">Close</button>
                             </form>
                         </div>
                     </div>
@@ -106,23 +106,23 @@
  </div>
 
  <script>
-   function submitForm(id) {
-        // Trigger form submission
-        document.getElementById('deleteForm' + id).submit();
-        // Close the delete modal
-        document.getElementById('deleteModal' + id).close();
-    }
+  //  function submitForm(id) {
+  //       // Trigger form submission
+  //       document.getElementById('deleteForm' + id).submit();
+  //       // Close the delete modal
+  //       document.getElementById('deleteModal' + id).close();
+  //   }
 
-    function openModal(roomTypeId) {
-        document.getElementById('statusModal' + roomTypeId).showModal();
-    }
+  //   function openModal(roomTypeId) {
+  //       document.getElementById('statusModal' + roomTypeId).showModal();
+  //   }
 
-    function closeModal(roomTypeId) {
-        document.getElementById('statusModal' + roomTypeId).close();
-    }
+  //   function closeModal(roomTypeId) {
+  //       document.getElementById('statusModal' + roomTypeId).close();
+  //   }
 
-    function submitStatusForm(roomTypeId) {
-        document.getElementById('statusForm' + roomTypeId).submit();
-    }
+  //   function submitStatusForm(roomTypeId) {
+  //       document.getElementById('statusForm' + roomTypeId).submit();
+  //   }
  </script>
 @endsection
