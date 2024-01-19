@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Repositories\Interfaces\{RoomRepositoryInterface, RoomTypeRepositoryInterface};
-use App\Repositories\{RoomRepository, RoomTypeRepository};
+use App\Repositories\Interfaces\{GuestRepositoryInterface, RoomRepositoryInterface, RoomTypeRepositoryInterface};
+use App\Repositories\{GuestRepository, RoomRepository, RoomTypeRepository};
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -15,6 +15,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(RoomTypeRepositoryInterface::class, RoomTypeRepository::class);
         $this->app->bind(RoomRepositoryInterface::class, RoomRepository::class);
+        $this->app->bind(GuestRepositoryInterface::class, GuestRepository::class);
     }
 
     /**

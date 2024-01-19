@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\admin\{RoomController, RoomTypeController};
+use App\Http\Controllers\admin\{GuestController, RoomController, RoomTypeController};
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +35,10 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     Route::resource('rooms', RoomController::class);
     Route::get('search-rooms', [RoomController::class, 'search']);
     Route::get('rooms/status/{id}', [RoomController::class, 'change_status']);
+
+    ## guest
+    Route::resource('guests', GuestController::class);
+    Route::get('search-guests', [GuestController::class, 'search']);
 });
 
 
