@@ -122,6 +122,9 @@
               </tbody>
             </table>
           </div>
+          <div>
+            {{ $rooms->links('pagination::tailwind') }}
+          </div>
     </div>
  </div>
 
