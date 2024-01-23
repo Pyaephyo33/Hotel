@@ -18,6 +18,14 @@ Route::get('/test', function(){
     return view('app');
 });
 
+Route::get('/dashboard', function() {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/welcome', function() {
+    return view('welcome');
+});
+
 
 Route::get('/', function () {
     return view('admin.layouts.master');
