@@ -119,6 +119,6 @@ class GuestController extends Controller
         $searchData = '%' . $request->search . '%';
         $search = $request->search;
         $guests = $guestRepository->searchGuest($searchData);
-        return view('admin.guest.index', compact('search', 'rooms'));
+        return view('admin.guest.index', compact('search', 'guests'));
     }
 }
