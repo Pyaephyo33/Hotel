@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\admin\Food;
 use Illuminate\Http\Request;
 use App\Models\admin\Guest;
 use App\Repositories\Interfaces\GuestRepositoryInterface;
