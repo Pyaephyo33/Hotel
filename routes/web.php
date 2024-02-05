@@ -31,14 +31,16 @@ Route::get('/', function () {
     return view('admin.layouts.master');
 })->middleware(['auth','verified'])->name('master');
 
-Route::middleware('auth','role:admin')->prefix('admin')->group(function(){
+// Route::middleware('auth','role:admin')->prefix('admin')->group(function(){
+Route::middleware('auth')->prefix('admin')->group(function(){
 
 
     ## user
     Route::resource('users', UserController::class);
 
     ## room type
-    Route::resource('roomTypes', RoomTypeController::class)->middleware('can:room types');
+    // Route::resource('roomTypes', RoomTypeController::class)->middleware('can:room types');
+    Route::resource('roomTypes', RoomTypeController::class);
     Route::get('search-room-types', [RoomTypeController::class, 'search']);
     Route::get('roomTypes/status/{id}', [RoomTypeController::class, 'change_status']);
 
