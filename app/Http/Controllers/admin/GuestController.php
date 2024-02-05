@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\admin\Food;
 use Illuminate\Http\Request;
 use App\Models\admin\Guest;
 use App\Repositories\Interfaces\GuestRepositoryInterface;
@@ -41,25 +40,16 @@ class GuestController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            DB::beginTransaction();
+        $data = $request->validate([
+            'name' => 'required|string',
+            'identity_card' => 'required',
+            'father_name' => 'required',
+            'age' => 'required',
+        ]);
 
-            $data = $request->validate([
-                'name' => 'required|string',
-                'identity_card' => 'required',
-                'father_name' => 'required',
-                'age' => 'required',
-            ]);
+        $this->guestRepository->storeGuest($data);
 
-            $this->guestRepository->storeGuest($data);
-
-            DB::commit();
-
-            return redirect('admin/guests')->with('success', 'Guest Created Successfully!');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Error occurred: ' . $e->getMessage());
-        }
+        return redirect('admin/guests')->with('success', 'Guest Created Successfully!');
     }
 
     /**

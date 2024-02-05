@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\admin\{FoodController, GuestController, RoomController, RoomTypeController};
+use App\Http\Controllers\admin\{FoodController, GuestController, RoomController, RoomTypeController, UserController};
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,10 +31,14 @@ Route::get('/', function () {
     return view('admin.layouts.master');
 })->middleware(['auth','verified'])->name('master');
 
-Route::middleware('auth')->prefix('admin')->group(function(){
+Route::middleware('auth','role:admin')->prefix('admin')->group(function(){
+
+
+    ## user
+    Route::resource('users', UserController::class);
 
     ## room type
-    Route::resource('roomTypes', RoomTypeController::class);
+    Route::resource('roomTypes', RoomTypeController::class)->middleware('can:room types');
     Route::get('search-room-types', [RoomTypeController::class, 'search']);
     Route::get('roomTypes/status/{id}', [RoomTypeController::class, 'change_status']);
 
@@ -53,6 +57,7 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     Route::get('search-foods', [FoodController::class, 'search']);
     Route::get('foods/status/{id}', [FoodController::class, 'change_status']);
 });
+
 
 
 
