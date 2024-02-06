@@ -5,7 +5,9 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin;
+use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -28,7 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        // 
     }
 
     /**
@@ -68,6 +70,21 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->userRepository->destoryUser($id);
+        return back()->with('deleted', 'User Deleted Successfully');
+    }
+
+    public function assignRoleIndex($userId)
+    {
+        $user = User::findOrFail($userId);
+        $roles = Role::all();
+        return view('admin.users.assign-role', compact('user', 'roles'));
+    }
+
+    public function assignRole(Request $request)
+    {
+        $user = User::findOrFail($request->user_id);
+        $user->syncRoles($request->role_ids);
+        return view('admin/users')->with('success', 'Role Assigned!');
     }
 }
