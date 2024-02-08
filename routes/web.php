@@ -68,6 +68,7 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     Route::get('roles/edit/{id}', [RoleAndPermissionController::class, 'edit']);
     Route::put('roles/update/{id}', [RoleAndPermissionController::class, 'update']);
     Route::delete('roles/delete/{id}', [RoleAndPermissionController::class, 'destroy']);
+    Route::get('search-roles', [RoleAndPermissionController::class, 'search']);
 });
 
 

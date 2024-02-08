@@ -15,7 +15,7 @@
               </a>
             </div>
             <div class="col-end-7 col-span-2">
-                <form action="" class="float-right" method="GET">
+                <form action="{{ url('admin/search-roles') }}" class="float-right" method="GET">
                     @csrf
                     <div class="flex items-center">
                         <input type="text" name="search" class="input input-bordered btn-sm w-full" placeholder="Search">
@@ -37,6 +37,7 @@
                 <tr>
                   <th>#</th>
                   <th>Name</th>
+                  <th>Permission</th>
                 </tr>
               </thead>
               <tbody>
@@ -44,6 +45,11 @@
                 <tr>
                   <th>{{ $role->id }}</th>
                   <td>{{ $role->name }}</td>
+                  <td>
+                    @foreach ($role->permissions as $permission)
+                      <span class="badge badge-primary">{{ $permission->name }}</span>
+                    @endforeach
+                  </td>
                   <td class="flex space-x-2">
                     <a href="{{url('admin/roles/edit/'.$role->id)}}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-cyan-700 flex-shrink-0 group-hover:text-gray-900 transition duration-75">

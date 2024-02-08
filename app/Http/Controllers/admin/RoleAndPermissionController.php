@@ -109,4 +109,12 @@ class RoleAndPermissionController extends Controller
         $role->delete();
         return back()->with('deleted', 'Successfully Deleted!');
     }
+
+    public function search(Request $request)
+    {
+        $searchData = "%" . $request->search . "%";
+        $roles = Role::where('name', 'like', $searchData)->get();
+        $permissions = Permission::all();
+        return view('admin.role.index', compact('roles', 'permissions'));
+    }
 }
