@@ -82,7 +82,8 @@ class RoleAndPermissionController extends Controller
     public function edit(string $id)
     {
         $role = Role::find($id);
-        $roles = Role::paginate('10');
+        // $roles = Role::paginate('10');
+        $roles = Role::get();
         $permissions = Permission::all();
         return view('admin.role.form', compact('role', 'roles', 'permissions'));
     }
