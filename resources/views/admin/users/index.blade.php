@@ -38,6 +38,7 @@
                   <th>#</th>
                   <th>Name</th>
                   <th>Email</th>
+                  <th>Role</th>
                 </tr>
               </thead>
               <tbody>
@@ -46,6 +47,11 @@
                   <th>{{ $user->id }}</th>
                   <td>{{ $user->name }}</td>
                   <td>{{ $user->email }}</td>
+                  <td>
+                    @foreach ($user->getRoleNames() as $role)
+                        <span class="badge badge-primary">{{ $role }}</span>
+                    @endforeach
+                  </td>
                   <td class="flex space-x-2">
                     {{-- <a href="{{url('admin/users/'.$user->id.'/edit')}}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-cyan-700 flex-shrink-0 group-hover:text-gray-900 transition duration-75">

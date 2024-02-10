@@ -29,7 +29,7 @@ class RoleAndPermissionController extends Controller
     ## permission index
     public function permissionIndex()
     {
-        // 
+        //
     }
 
     ## assign permission index
@@ -41,50 +41,30 @@ class RoleAndPermissionController extends Controller
     }
 
     ## assign permission to role
-    // public function assignPermission(Request $request)
-    // {
-
-    //     $role = Role::findOrFail($request->role_id);
-
-    //     if (!$request->has('permission_ids') || !is_array($request->permission_ids)) {
-    //         return redirect('admin/roles')->with('error', 'Invalid permissions provided.');
-    //     }
-    //     $permissions = Permission::whereIn('id', $request->permission_ids)->get();
-
-    //     if ($permissions->count() !== count($request->permission_ids)) {
-    //         return redirect('admin/roles')->with('error', 'Invalid permission IDs provided.');
-    //     }
-
-    //     // Sync the permissions with the role
-    //     $role->syncPermissions($permissions);
-
-    //     return redirect('admin/roles')->with('success', 'Permissions assigned successfully.');
-    // }
 
     public function assignPermission(Request $request)
     {
         $role = Role::findOrFail($request->role_id);
 
-        if (!$request->has('permission_ids') || !is_array($request->permission_ids)) {
-            return redirect('admin/roles')->with('error', 'Invalid permissions provided.');
+        if (empty($request->permission_ids)) {
+            $role->syncPermissions([]);
+            return redirect('admin/roles')->with('success', 'No permissions assigned to the role.');
         }
 
-        // Fetch permissions from the provided IDs
-        $permissionsToAssign = Permission::whereIn('id', $request->permission_ids)->get();
+        $permissions = Permission::whereIn('id', $request->permission_ids)->get();
 
-        // Filter out permissions that are already assigned to the role
-        $permissionsToAssign = $permissionsToAssign->reject(function ($permission) use ($role) {
-            return $role->hasPermissionTo($permission);
-        });
+        if ($permissions->count() !== count($request->permission_ids)) {
+            return redirect('admin/roles')->with('error', 'One or more permissions were not found.');
+        }
 
-        // Sync the permissions with the role
-        $role->syncPermissions($permissionsToAssign);
+        // Sync permissions to the role
+        $role->syncPermissions($permissions);
 
-        return redirect('admin/roles')->with('success', 'Permissions assigned successfully.');
+        return redirect('admin/roles')->with('success', 'Permissions assigned successfully');
     }
 
-    
-    ## role create 
+
+    ## role create
     public function create()
     {
         $permissions = Permission::all();

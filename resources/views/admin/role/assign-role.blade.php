@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', 'Assign Role')
+@section('title', 'Assign Permission')
 @section('subtitle', 'Role and Permission')
 @section('content')
 
@@ -12,7 +12,7 @@
 
         <div class="grid grid-cols-6 gap-4 mb-3">
             <div class="col-start-1 col-end-3">
-                <h5 class="card-title">Role List</h5>
+                <h5 class="card-title">Permission List</h5>
                 <h6><span class="font-bold">Role:</span> {{ $role->name }}</h6>
                 <input type="hidden" name="role_id" value="{{ $role->id }}">
             </div>
@@ -35,12 +35,12 @@
               </thead>
               <tbody>
                 @if(!empty($permissions) && $permissions->count() > 0)
-                @foreach($permissions as $permission) 
+                @foreach($permissions as $permission)
                     <tr>
                         <td>{{ $permission->id }}</td>
                         <td><label for="{{ $permission->id }}">{{ $permission->name }}</label>
                         <td>
-                            <input type="checkbox" name="permission_ids[]" class="checkbox checkbox-primary" value="{{ $permission->id }}" id="{{ $permission->id }}" 
+                            <input type="checkbox" name="permission_ids[]" class="checkbox checkbox-primary" value="{{ $permission->id }}" id="{{ $permission->id }}"
                             @if(!empty($role->permissions) && $role->permissions->contains ('id', $permission->id))
                             checked
                             @endif
@@ -61,6 +61,6 @@
        </div>
     </div>
 </form>
-    
+
  </div>
 @endsection
