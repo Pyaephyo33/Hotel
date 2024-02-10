@@ -62,6 +62,9 @@ Route::middleware('auth')->prefix('admin')->group(function(){
 
     ## role & permission
     Route::get('roles', [RoleAndPermissionController::class, 'roleIndex']);
+    Route::get('permissions', [RoleAndPermissionController::class, 'permissionIndex']);
+    Route::get('roles/permissions/assign/{roleId}', [RoleAndPermissionController::class, 'assignPermissionIndex']);
+    Route::post('roles/permissions/assign', [RoleAndPermissionController::class, 'assignPermission']);
     
     Route::get('roles/create', [RoleAndPermissionController::class, 'create']);
     Route::post('roles/store', [RoleAndPermissionController::class, 'store']);

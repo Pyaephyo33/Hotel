@@ -15,6 +15,10 @@ class RoleAndPermissionController extends Controller
 
     use HasRoles;
 
+    public function __construct()
+    {
+        // $this->middleware(['permission:all-menu|user-setting']);
+    }
     ## role index
     public function roleIndex()
     {
@@ -37,14 +41,49 @@ class RoleAndPermissionController extends Controller
     }
 
     ## assign permission to role
+    // public function assignPermission(Request $request)
+    // {
+
+    //     $role = Role::findOrFail($request->role_id);
+
+    //     if (!$request->has('permission_ids') || !is_array($request->permission_ids)) {
+    //         return redirect('admin/roles')->with('error', 'Invalid permissions provided.');
+    //     }
+    //     $permissions = Permission::whereIn('id', $request->permission_ids)->get();
+
+    //     if ($permissions->count() !== count($request->permission_ids)) {
+    //         return redirect('admin/roles')->with('error', 'Invalid permission IDs provided.');
+    //     }
+
+    //     // Sync the permissions with the role
+    //     $role->syncPermissions($permissions);
+
+    //     return redirect('admin/roles')->with('success', 'Permissions assigned successfully.');
+    // }
+
     public function assignPermission(Request $request)
     {
         $role = Role::findOrFail($request->role_id);
-        $role->syncPermissions($request->permission_ids);
 
-        return redirect('admin/roles');
+        if (!$request->has('permission_ids') || !is_array($request->permission_ids)) {
+            return redirect('admin/roles')->with('error', 'Invalid permissions provided.');
+        }
+
+        // Fetch permissions from the provided IDs
+        $permissionsToAssign = Permission::whereIn('id', $request->permission_ids)->get();
+
+        // Filter out permissions that are already assigned to the role
+        $permissionsToAssign = $permissionsToAssign->reject(function ($permission) use ($role) {
+            return $role->hasPermissionTo($permission);
+        });
+
+        // Sync the permissions with the role
+        $role->syncPermissions($permissionsToAssign);
+
+        return redirect('admin/roles')->with('success', 'Permissions assigned successfully.');
     }
 
+    
     ## role create 
     public function create()
     {
