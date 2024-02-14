@@ -26,4 +26,9 @@ class Room extends Model
 
         return QrCode::size(50)->generate(json_encode($data));
     }
+
+    public function bookings()
+    {
+        return $this->belongsToMany(BookingIn::class, 'booking_room', 'room_id', 'booking_id')->withTimestamps();
+    }
 }
