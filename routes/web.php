@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\admin\{FoodController, GuestController, RoomController, RoomTypeController, UserController,RoleAndPermissionController};
+use App\Http\Controllers\admin\{BookingController, FoodController, GuestController, RoomController, RoomTypeController, UserController,RoleAndPermissionController};
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +62,11 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     Route::resource('foods', FoodController::class);
     Route::get('search-foods', [FoodController::class, 'search']);
     Route::get('foods/status/{id}', [FoodController::class, 'change_status']);
+
+
+    ## booking
+    Route::resource('bookings', BookingController::class);
+    Route::get('search-bookings', [BookingController::class, 'search']);
 
 
     ## role & permission

@@ -112,4 +112,12 @@ class BookingController extends Controller
     {
         //
     }
+
+    public function search(Request $request, BookingRepositoryInterface $bookingRepository)
+    {
+        $searchData = '%' . $request->search . '%';
+        $search = $request->search;
+        $bookings = $bookingRepository->searchBooking($searchData);
+        return view('admin.booking.index', compact('search', 'bookings'));
+    }
 }
