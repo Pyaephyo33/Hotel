@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('booking_ins', function (Blueprint $table) {
             $table->id();
-            $table->string('voucher')->unique();
+            $table->string('voucher');
             $table->date('check_in');
             $table->date('check_out');
             $table->string('person');

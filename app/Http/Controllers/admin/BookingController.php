@@ -21,6 +21,7 @@ class BookingController extends Controller
     public function index()
     {
         $bookings = $this->bookingRepository->allBookings();
+        // $bookings = BookingIn::all();
         return view('admin.booking.index', compact('bookings'));
     }
 
@@ -30,8 +31,8 @@ class BookingController extends Controller
     public function create()
     {
         $booking = new BookingIn();
-        $rooms = Room::where('status', 1 || true)->get();
-        return view('admin.booking.index', compact('booking', 'rooms'));
+        $rooms = Room::where('status', 1)->get();
+        return view('admin.booking.form', compact('booking', 'rooms'));
     }
 
     /**
@@ -40,22 +41,23 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'check_in' => 'required',
-            'check_out' => 'required',
-            'person' => 'required',
-            'extra' => 'required',
-            'remark' => 'required',
-            'room_id' => 'required',
+            'room_id' => 'required|exists:rooms,id',
+            'check_in' => 'required|date',
+            'check_out' => 'required|date|after:check_in',
+            'person' => 'required|numeric',
+            'extra' => 'required|numeric',
+            'remark' => 'required|string',
         ]);
-
-        // Generate voucher number
-        $lastVoucher = BookingIn::max('voucher');
-        $lastNumber = $lastVoucher ? (int)substr($lastVoucher, strpos($lastVoucher, '-') + 1) : 0;
-        $voucher = 'VOU-' . ($lastNumber + 1);
 
         try {
             DB::beginTransaction();
 
+            // Generate voucher number
+            $lastVoucher = BookingIn::max('voucher');
+            $lastNumber = $lastVoucher ? (int)substr($lastVoucher, strpos($lastVoucher, '-') + 1) : 0;
+            $voucher = 'VOU-' . ($lastNumber + 1);
+
+            // Create booking
             $booking = BookingIn::create([
                 'voucher' => $voucher,
                 'check_in' => $request->check_in,
@@ -64,22 +66,20 @@ class BookingController extends Controller
                 'extra' => $request->extra,
                 'remark' => $request->remark,
             ]);
-
-            DB::table('booking_room')->insert([
-                'booking_id' => $booking->id,
-                'room_id' => $request->room_id,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            
+            // Attach room to booking
+            $booking->rooms()->attach($request->room_id);
 
             DB::commit();
+            
             return redirect('admin/bookings')->with('success', 'New Booking Added!');
         } catch (\Exception $e) {
             DB::rollback();
-
-            return back()->with('deleted', 'Failed to add new booking, Please try again');
+            
+            return back()->with('error', 'Failed to add new booking, Please try again');
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -110,7 +110,9 @@ class BookingController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // 
+        $this->bookingRepository->destoryBooking($id);
+        return back()->with('deleted', 'Booking Deleted Successfully');
     }
 
     public function search(Request $request, BookingRepositoryInterface $bookingRepository)

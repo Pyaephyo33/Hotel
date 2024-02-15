@@ -10,8 +10,15 @@ class BookingIn extends Model
     use HasFactory;
     protected $guarded=[];
 
+
+    // public function rooms()
+    // {
+    //     return $this->belongsToMany(Room::class);
+    // }
+
     public function rooms()
     {
-        return $this->belongsToMany(Room::class, 'booking_room', 'booking_id', 'room_id')->withTimestamps();
+        return $this->belongsToMany(Room::class, 'booking_room', 'booking_id', 'room_id');
     }
+
 }

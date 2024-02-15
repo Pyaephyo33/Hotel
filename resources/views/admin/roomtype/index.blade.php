@@ -5,7 +5,7 @@
 
 <x-flash-message />
 
-<div class="p-6 px-4">
+<div class="p-2 px-4">
     <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
 
         <div class="grid grid-cols-6 gap-4 mb-5">
