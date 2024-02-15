@@ -18,6 +18,7 @@ class FoodController extends Controller
     public function __construct(FoodRepositoryInterface $foodRepository)
     {
         $this->foodRepository = $foodRepository;
+        // $this->middleware(['permission:all-menu']);
     } 
     
 

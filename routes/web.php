@@ -59,7 +59,7 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     Route::get('search-guests', [GuestController::class, 'search']);
 
     ## food
-    Route::resource('foods', FoodController::class);
+    Route::resource('foods', FoodController::class)->middleware('permission:all-menu');
     Route::get('search-foods', [FoodController::class, 'search']);
     Route::get('foods/status/{id}', [FoodController::class, 'change_status']);
 
