@@ -17,5 +17,6 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'reception']);
         Permission::create(['name' => 'room']);
         Permission::create(['name' => 'food']);
+        Permission::create(['name' => 'booking']);
     }
 }

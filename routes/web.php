@@ -44,18 +44,18 @@ Route::middleware('auth')->prefix('admin')->group(function(){
 
     ## room type
     // Route::resource('roomTypes', RoomTypeController::class)->middleware('can:room types');
-    Route::resource('roomTypes', RoomTypeController::class);
+    Route::resource('roomTypes', RoomTypeController::class)->middleware('permission:all-menu');
     Route::get('search-room-types', [RoomTypeController::class, 'search']);
     Route::get('roomTypes/status/{id}', [RoomTypeController::class, 'change_status']);
 
 
     ## room
-    Route::resource('rooms', RoomController::class);
+    Route::resource('rooms', RoomController::class)->middleware('permission:all-menu');
     Route::get('search-rooms', [RoomController::class, 'search']);
     Route::get('rooms/status/{id}', [RoomController::class, 'change_status']);
 
     ## guest
-    Route::resource('guests', GuestController::class);
+    Route::resource('guests', GuestController::class)->middleware('permission:all-menu');
     Route::get('search-guests', [GuestController::class, 'search']);
 
     ## food
@@ -65,7 +65,7 @@ Route::middleware('auth')->prefix('admin')->group(function(){
 
 
     ## booking
-    Route::resource('bookings', BookingController::class);
+    Route::resource('bookings', BookingController::class)->middleware('permission:all-menu');
     Route::get('search-bookings', [BookingController::class, 'search']);
 
 
