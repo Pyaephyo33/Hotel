@@ -66,16 +66,16 @@ class BookingController extends Controller
                 'extra' => $request->extra,
                 'remark' => $request->remark,
             ]);
-            
+
             // Attach room to booking
             $booking->rooms()->attach($request->room_id);
 
             DB::commit();
-            
+
             return redirect('admin/bookings')->with('success', 'New Booking Added!');
         } catch (\Exception $e) {
             DB::rollback();
-            
+
             return back()->with('error', 'Failed to add new booking, Please try again');
         }
     }
@@ -94,7 +94,9 @@ class BookingController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $booking = $this->bookingRepository->findBooking($id);
+        $rooms = Room::where('status', 1)->get();
+        return view('admin.booking.form', compact('booking', 'rooms'));
     }
 
     /**
@@ -102,7 +104,41 @@ class BookingController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'room_id' => 'required|exists:rooms,id',
+            'check_in' => 'required|date',
+            'check_out' => 'required|date|after:check_in',
+            'person' => 'required|numeric',
+            'extra' => 'required|numeric',
+            'remark' => 'required|string',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            // Find the booking by ID
+            $booking = BookingIn::findOrFail($id);
+
+            // Update booking details
+            $booking->update([
+                'check_in' => $request->check_in,
+                'check_out' => $request->check_out,
+                'person' => $request->person,
+                'extra' => $request->extra,
+                'remark' => $request->remark,
+            ]);
+
+            // Sync room for booking
+            $booking->rooms()->sync([$request->room_id]);
+
+            DB::commit();
+
+            return redirect('admin/bookings')->with('success', 'Booking Updated Successfully!');
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            return back()->with('error', 'Failed to update booking. Please try again.');
+        }
     }
 
     /**
@@ -110,7 +146,7 @@ class BookingController extends Controller
      */
     public function destroy(string $id)
     {
-        // 
+        //
         $this->bookingRepository->destoryBooking($id);
         return back()->with('deleted', 'Booking Deleted Successfully');
     }

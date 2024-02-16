@@ -44,7 +44,7 @@
                         </select>
                         @error('room_id')
                             <span class="text-sm text-red-500">{{ $message }}</span>
-                        @enderror                        
+                        @enderror
                     </label>
                 </div>
                 <div>
