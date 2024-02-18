@@ -37,7 +37,7 @@
                         <select name="room_id" class="select select-bordered w-full @error('room_id') select-error @enderror">
                             <option disabled selected>Select Room</option>
                             @foreach($rooms as $room)
-                                <option value="{{ $room->id }}" {{ old('room_id') == $room->id ? 'selected' : '' }}>
+                                <option value="{{ $room->id }}">
                                     {{ $room->name }}
                                 </option>
                             @endforeach
