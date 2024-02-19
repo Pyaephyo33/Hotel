@@ -86,7 +86,9 @@ class BookingController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $booking = $this->bookingRepository->findBooking($id);
+        $rooms = Room::where('status', 1)->get();
+        return view('admin.booking.detail', compact('booking', 'rooms'));
     }
 
     /**

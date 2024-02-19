@@ -76,6 +76,7 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     ## booking
     Route::resource('bookings', BookingController::class)->middleware('permission:all-menu');
     Route::get('search-bookings', [BookingController::class, 'search']);
+    Route::get('/bookings/{id}', [BookingController::class, 'show'])->name('bookings.show');
 
 
     ## role & permission
