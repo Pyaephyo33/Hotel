@@ -39,7 +39,7 @@
 
         <h1 class="text-start px-1 text-2xl text-bold pt-5">BOOKING SLIP</h1>
 
-        <div class="grid grid-cols-6 gap-4 px-1">
+        <div class="grid grid-cols-6 gap-4 px-1 pt-2">
             <div class="col-start-1 col-end-3">
                 <div class="flex space-x-1">
                     <h2>CheckIn - Date</h2>
@@ -63,6 +63,16 @@
                 </div>
             </div>
         </div>
+
+        <div class="grid grid-cols-6 gap-4 px-1 py-4">
+            <div class="col-start-1 col-end-3">
+                <div class="flex space-x-1">
+                    <h1 class="text-lg text-semibold">Description</h1>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>
 
