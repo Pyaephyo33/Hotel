@@ -18,6 +18,7 @@ Route::get('/test', function(){
     return view('app');
 });
 
+// testing Route
 Route::get('/dashboard', function() {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -29,6 +30,14 @@ Route::get('/welcome', function() {
 Route::get('/not-found', function() {
     return view('notfound');
 });
+
+
+//
+
+Route::get('/detail', function() {
+    return view('admin.booking.detail');
+});
+
 
 
 Route::get('/', function () {
