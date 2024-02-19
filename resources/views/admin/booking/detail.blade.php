@@ -65,12 +65,51 @@
         </div>
 
         <div class="grid grid-cols-6 gap-4 px-1 py-4">
-            <div class="col-start-1 col-end-3">
-                <div class="flex space-x-1">
+            <div class="col-start-1 col-end-3 py-2">
+                <div class="flex space-x-1 pb-1">
                     <h1 class="text-lg text-semibold">Description</h1>
+                </div>
+                <div class="flex-space-x-1">
+                    <h2>Extra</h2>
+                </div>
+                <div class="flex-space-x-1">
+                    <h2>Price</h2>
+                </div>
+            </div>
+            <div class="col-end-7 col-span-2 py-2">
+                <div class="flex space-x-1 pb-1">
+                    <h1 class="text-lg text-semibold">Amount</h1>
+                </div>
+                <div class="flex space-x-1">
+                    <h2>2 Bed Extra</h2>
+                </div>
+                <div class="flex space-x-1">
+                    <h2>$ 500</h2>
                 </div>
             </div>
         </div>
+        <hr class="clear-both border-none h-1 bg-gray-500">
+        <div class="grid grid-cols-6 gap-4 px-1 py-2">
+            <div class="col-start-1 col-end-3 py-2">
+                <div class="flex space-x-1">
+                    <h2>Total</h2>
+                </div>
+            </div>
+            <div class="col-end-7 col-span-2 py-2">
+                <div class="flex space-x-1 pb-1">
+                    <div class="flex space-x-1">
+                        <h2>$ 1000</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h1 class="text-start text-lg px-1">Remark</h1>
+            <textarea name="" id="" rows="3" class="w-full my-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2" disabled></textarea>
+        </div>
+
+        <h2 class="text-sm opacity-75 text-start my-2">Thank You for choosing us</h2>
 
 
     </div>
