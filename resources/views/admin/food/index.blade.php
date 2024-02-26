@@ -103,6 +103,9 @@
                 @endforeach
               </tbody>
             </table>
+            <div class="mt-4">
+              {{ $foods->links() }}
+            </div>
           </div>
     </div>
  </div>
