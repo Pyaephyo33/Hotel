@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\Guest;
 use App\Repositories\Interfaces\GuestRepositoryInterface;
-use Illuminate\Support\Facades\DB;use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class GuestController extends Controller
 {
