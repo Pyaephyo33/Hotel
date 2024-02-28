@@ -74,6 +74,7 @@
             </ul>
           </div>
           <main>
+            @include('sweetalert::alert')
              {{-- <div class="p-6 px-4"> --}}
                 {{-- <div class="w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
                    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
@@ -627,6 +628,50 @@
          document.getElementById('statusModal' + id).close();
       }
     </script>
+   <script>
+      // Display SweetAlert notification if success or error message exists
+      @if(session('success') || session('error') || session('updated') || session('toggled') || session('deleted'))
+          const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                  toast.onmouseenter = Swal.stopTimer;
+                  toast.onmouseleave = Swal.resumeTimer;
+              }
+          });
+
+          @if(session('success'))
+              Toast.fire({
+                  icon: 'success',
+                  title: '{{ session('success') }}'
+              });
+          @elseif(session('updated'))
+              Toast.fire({
+                  icon: 'success',
+                  title: '{{ session('updated') }}'
+              });
+          @elseif(session('toggled'))
+              Toast.fire({
+                  icon: 'success',
+                  title: '{{ session('toggled') }}'
+              });
+          @elseif(session('deleted'))
+              Toast.fire({
+                  icon: 'success',
+                  title: '{{ session('deleted') }}'
+              });
+          @elseif(session('error'))
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error!',
+                  text: '{{ session('error') }}'
+              });
+          @endif
+      @endif
+  </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="https://demo.themesberg.com/windster/app.bundle.js"></script>
  </div>

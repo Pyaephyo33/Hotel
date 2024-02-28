@@ -82,6 +82,20 @@ class UserController extends Controller
         return view('admin.users.assign-role', compact('user', 'roles'));
     }
 
+    // public function search(Request $request, RoomTypeRepositoryInterface $roomTypeRepository)
+    // {
+    //     $searchData = '%' . $request->search . '%';
+    //     $roomTypes = $roomTypeRepository->searchRoomType($searchData);
+    //     return view('admin.roomtype.index', compact('roomTypes'));
+    // }
+
+    public function search(Request $request, UserRepositoryInterface $userRepository)
+    {
+        $searchData = '%' . $request->search . '%';
+        $users = $userRepository->searchUser($searchData);
+        return view('admin.users.index', compact('users'));
+    }
+
     // public function assignRole(Request $request)
     // {
     //     $user = User::findOrFail($request->user_id);

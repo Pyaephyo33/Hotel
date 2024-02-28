@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\admin\{Room, RoomType};
 use App\Repositories\Interfaces\RoomRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RoomController extends Controller
 {
@@ -18,6 +19,24 @@ class RoomController extends Controller
     public function __construct(RoomRepositoryInterface $roomRepository)
     {
         $this->roomRepository= $roomRepository;
+        $this->middleware(function($request, $next) {
+            if (session('success')) {
+                Alert::success(session('success'));
+            } 
+            if (session('updated')) {
+                Alert::success(session('updated'));
+            }
+            if (session('error')) {
+                Alert::error(session('error'));
+            }
+            if (session('toggled')) {
+                Alert::success(session('toggled'));
+            }
+            if (session('deleted')) {
+                Alert::success(session('deleted'));
+            }
+            return $next($request);
+        });
     }
 
 
@@ -75,11 +94,14 @@ class RoomController extends Controller
 
             DB::commit();
 
-            return redirect('admin/rooms')->with('success', 'Room Created Successfully!');
+            // return redirect('admin/rooms')->with('success', 'Room Created Successfully!');
+            session()->flash('success', 'Room Successfully Created!');
         } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Error occurred: ' . $e->getMessage());
+            // DB::rollBack();
+            // return redirect()->back()->with('error', 'Error occurred: ' . $e->getMessage());
+            session()->flash('error', 'Error occurred while creating food: ' . $e->getMessage());
         }
+        return redirect('admin/rooms');
     }
 
     /**
@@ -135,12 +157,14 @@ class RoomController extends Controller
 
             DB::commit();
 
-            return redirect('admin/rooms')->with('updated', 'Room Updated Successfully!');
+            // return redirect('admin/rooms')->with('updated', 'Room Updated Successfully!');
+            session()->flash('success', 'Room Updated Successfully');
         } catch (\Exception $e) {
-            DB::rollBack();
-
-            return redirect()->back()->with('error', 'Error Occurred:' . $e->getMessage());
+            // DB::rollBack();
+            session()->flash('error', 'Error occurred while creating food: ' . $e->getMessage());
+            // return redirect()->back()->with('error', 'Error Occurred:' . $e->getMessage());
         }
+        return redirect('admin/rooms');
     }
 
     /**
@@ -149,7 +173,9 @@ class RoomController extends Controller
     public function destroy(string $id)
     {
         $this->roomRepository->destroyRoom($id);
-        return back()->with('deleted', 'Room Deleted Successfully');
+        // return back()->with('deleted', 'Room Deleted Successfully');
+        session()->flash('deleted', 'Room Successfully Deleted!');
+        return back();
     }
 
     public function change_status(Request $request)
@@ -158,7 +184,9 @@ class RoomController extends Controller
 
         $newStatus = !$room->status;
         $room->update(['status' => $newStatus]);
-        return back()->with('toggled', 'Status Successfully Toggled!');
+        // return back()->with('toggled', 'Status Successfully Toggled!');
+        session()->flash('toggled', 'Status Successfully Toggled!');
+        return back();
     }
 
     public function search(Request $request, RoomRepositoryInterface $roomRepository)

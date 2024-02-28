@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\RoomType;
 use App\Repositories\Interfaces\RoomTypeRepositoryInterface;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RoomTypeController extends Controller
 {
@@ -16,6 +17,24 @@ class RoomTypeController extends Controller
     public function __construct(RoomTypeRepositoryInterface $roomTypeRepository)
     {
         $this->roomTypeRepository = $roomTypeRepository;
+        $this->middleware(function($request, $next) {
+            if (session('success')) {
+                Alert::success(session('success'));
+            } 
+            if (session('updated')) {
+                Alert::success(session('updated'));
+            }
+            if (session('error')) {
+                Alert::error(session('error'));
+            }
+            if (session('toggled')) {
+                Alert::success(session('toggled'));
+            }
+            if (session('deleted')) {
+                Alert::success(session('deleted'));
+            }
+            return $next($request);
+        });
     }
 
 
@@ -42,8 +61,15 @@ class RoomTypeController extends Controller
         $data = $request->validate([
             'name' => 'required|unique:room_types,name',
         ]);
-        $this->roomTypeRepository->storeRoomType($data);
-        return redirect('admin/roomTypes')->with('success', 'Room Type Created Successfully');
+        // $this->roomTypeRepository->storeRoomType($data);
+        // return redirect('admin/roomTypes')->with('success', 'Room Type Created Successfully');
+        try {
+            $this->roomTypeRepository->storeRoomType($data);
+            session()->flash('success', 'Food Created Successfully');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error occurred while creating food: ' . $e->getMessage());
+        }
+        return redirect('admin/roomTypes');
     }
 
     /**
@@ -76,8 +102,16 @@ class RoomTypeController extends Controller
             $roomTypeData['status'] = 'active';
         }
 
-        $this->roomTypeRepository->updateRoomType($request->all(), $id);
-        return redirect('admin/roomTypes')->with('updated', 'Room Type Updated Successfully');
+        // $this->roomTypeRepository->updateRoomType($request->all(), $id);
+        // return redirect('admin/roomTypes')->with('updated', 'Room Type Updated Successfully');
+
+        try {
+            $this->roomTypeRepository->updateRoomType($request->all(), $id);
+            session()->flash('updated', 'Food Updated Successfully');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error occurred while creating food: ' . $e->getMessage());
+        }
+        return redirect('admin/roomTypes');
     }
 
     /**
@@ -86,7 +120,9 @@ class RoomTypeController extends Controller
     public function destroy(string $id)
     {
         $this->roomTypeRepository->destroyRoomType($id);
-        return redirect('admin/roomTypes')->with('deleted', 'Room Type Deleted Successfully');
+        // return redirect('admin/roomTypes')->with('deleted', 'Room Type Deleted Successfully');
+        session()->flash('deleted', 'Room Type Successfully Deleted!');
+        return back();
     }
 
     public function change_status(Request $request)
@@ -95,7 +131,9 @@ class RoomTypeController extends Controller
 
         $newStatus = !$roomType->status;
         $roomType->update(['status' => $newStatus]);
-        return back()->with('toggled', 'Status Successfully Toggled!');
+        // return back()->with('toggled', 'Status Successfully Toggled!');
+        session()->flash('toggled', 'Status Successfully Toggled!');
+        return back();
     }
 
     public function search(Request $request, RoomTypeRepositoryInterface $roomTypeRepository)

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\admin\Food;
 use App\Repositories\Interfaces\FoodRepositoryInterface;
 use Illuminate\Support\Facades\DB;
-
+use RealRashid\SweetAlert\Facades\Alert;
 class FoodController extends Controller
 {
     /**
@@ -18,7 +18,25 @@ class FoodController extends Controller
     public function __construct(FoodRepositoryInterface $foodRepository)
     {
         $this->foodRepository = $foodRepository;
-        // $this->middleware(['permission:all-menu']);
+        // $this->middleware(['permission:all-menu']); 
+        $this->middleware(function($request, $next) {
+            if (session('success')) {
+                Alert::success(session('success'));
+            } 
+            if (session('updated')) {
+                Alert::success(session('updated'));
+            }
+            if (session('error')) {
+                Alert::error(session('error'));
+            }
+            if (session('deleted')) {
+                Alert::success(session('deleted'));
+            }
+            if (session('toggled')) {
+                Alert::success(session('toggled'));
+            }
+            return $next($request);
+        });
     } 
     
 
@@ -47,9 +65,21 @@ class FoodController extends Controller
             'price' => 'required',
         ]);
 
-        $this->foodRepository->storeFood($data);
+        // $this->foodRepository->storeFood($data);
 
-        return redirect('admin/foods')->with('success', 'Food Created Successfully!');
+        // return redirect('admin/foods')->with('success', 'Food Created Successfully!');
+
+        // Alert::success('Success', 'Food Created Successfully');
+        // return redirect('admin/foods');
+
+        // session()->flash('success', 'Food Created Successfully');
+        try {
+            $this->foodRepository->storeFood($data);
+            session()->flash('success', 'Food Created Successfully');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error occurred while creating food: ' . $e->getMessage());
+        }
+        return redirect('admin/foods');
     }
 
     /**
@@ -79,8 +109,15 @@ class FoodController extends Controller
             'price' => 'required',
         ]);
 
-        $this->foodRepository->updateFood($data, $id);
-        return redirect('admin/foods')->with('updated', 'Food Updated Successfully!');
+        // $this->foodRepository->updateFood($data, $id);
+        // return redirect('admin/foods')->with('updated', 'Food Updated Successfully!');
+        try {
+            $this->foodRepository->updateFood($data, $id);
+            session()->flash('updated', 'Food Updated Successfully');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error occurred while creating food: ' . $e->getMessage());
+        }
+        return redirect('admin/foods');
     }
 
     /**
@@ -89,7 +126,9 @@ class FoodController extends Controller
     public function destroy(string $id)
     {
         $this->foodRepository->destoryFood($id);
-        return back()->with('deleted', 'Food Successfully Deleted!');
+        // return back()->with('deleted', 'Food Successfully Deleted!');
+        session()->flash('deleted', 'Food Successfully Deleted!');
+        return back();
     }
 
     public function search(Request $request, FoodRepositoryInterface $foodRepository)
@@ -106,6 +145,7 @@ class FoodController extends Controller
 
         $newStatus = !$food->status;
         $food->update(['status' => $newStatus]);
-        return back()->with('toggled', 'Status Successfully Toggled!');
+        session()->flash('toggled', 'Status Successfully Toggled!');
+        return back();
     }
 }

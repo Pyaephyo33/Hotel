@@ -3,7 +3,7 @@
 @section('subtitle', 'List')
 @section('content')
 
-<x-flash-message />
+{{-- <x-flash-message /> --}}
 
 <div class="p-2 px-4">
     <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
@@ -49,9 +49,9 @@
                   <td>$ {{ $food->price }}</td>
                   <td>
                     @if($food->status == true)
-                        <span class="badge badge-accent badge-outline" onclick="document.getElementById('statusModal{{ $food->id }}').showModal()">Available</span>
+                        <button class="badge badge-accent badge-outline" onclick="document.getElementById('statusModal{{ $food->id }}').showModal()">Available</button>
                     @else
-                        <span class="badge badge-outline" onclick="document.getElementById('statusModal{{ $food->id }}').showModal()">Unavailable</span>
+                        <button class="badge badge-outline" onclick="document.getElementById('statusModal{{ $food->id }}').showModal()">Unavailable</button>
                     @endif
                 </td>
                   <td class="flex space-x-2">
@@ -109,4 +109,5 @@
           </div>
     </div>
  </div>
+ 
 @endsection

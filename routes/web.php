@@ -50,6 +50,7 @@ Route::middleware('auth')->prefix('admin')->group(function(){
 
     ## user
     Route::resource('users', UserController::class);
+    Route::get('search-users', [UserController::class, 'search']);
 
     ## room type
     // Route::resource('roomTypes', RoomTypeController::class)->middleware('can:room types');

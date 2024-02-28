@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\Guest;
 use App\Repositories\Interfaces\GuestRepositoryInterface;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;use RealRashid\SweetAlert\Facades\Alert;
 
 class GuestController extends Controller
 {
@@ -18,6 +18,24 @@ class GuestController extends Controller
     public function __construct(GuestRepositoryInterface $guestRepository)
     {
         $this->guestRepository = $guestRepository;
+        $this->middleware(function($request, $next) {
+            if (session('success')) {
+                Alert::success(session('success'));
+            } 
+            if (session('updated')) {
+                Alert::success(session('updated'));
+            }
+            if (session('error')) {
+                Alert::error(session('error'));
+            }
+            if (session('toggled')) {
+                Alert::success(session('toggled'));
+            }
+            if (session('deleted')) {
+                Alert::success(session('deleted'));
+            }
+            return $next($request);
+        });
     }
 
     public function index()
@@ -47,9 +65,15 @@ class GuestController extends Controller
             'age' => 'required',
         ]);
 
-        $this->guestRepository->storeGuest($data);
-
-        return redirect('admin/guests')->with('success', 'Guest Created Successfully!');
+        // $this->guestRepository->storeGuest($data);
+        // return redirect('admin/guests')->with('success', 'Guest Created Successfully!');
+        try {
+            $this->guestRepository->storeGuest($data);
+            session()->flash('success', 'Food Created Successfully');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error occurred while creating food: ' . $e->getMessage());
+        }
+        return redirect('admin/guests');
     }
 
     /**
@@ -87,13 +111,13 @@ class GuestController extends Controller
             $this->guestRepository->updateGuest($data, $id);
 
             DB::commit();
-
-            return redirect('admin/guests')->with('updated', 'Guest Updated Successfully!');
+            // return redirect('admin/guests')->with('updated', 'Guest Updated Successfully!');
+            session()->flash('updated', 'Guest Updated Successfully!');
         } catch (\Exception $e) {
-            DB::rollBack();
-
-            return redirect()->back()->with('error', 'Error Occurred:' . $e->getMessage());
+            // DB::rollBack();
+            session()->flash('error', 'Error occurred while creating food: ' . $e->getMessage());
         }
+        return redirect('admin/guests');
     }
 
     /**
@@ -102,7 +126,9 @@ class GuestController extends Controller
     public function destroy(string $id)
     {
         $this->guestRepository->destoryGuest($id);
-        return back()->with('deleted', 'Guest Deleted Successfully');
+        // return back()->with('deleted', 'Guest Deleted Successfully');
+        session()->flash('deleted', 'Room Type Successfully Deleted!');
+        return back();
     }
 
     public function search(Request $request, GuestRepositoryInterface $guestRepository)

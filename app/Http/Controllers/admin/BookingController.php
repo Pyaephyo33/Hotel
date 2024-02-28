@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\admin\{BookingIn,Room};
 use App\Repositories\Interfaces\BookingRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BookingController extends Controller
 {
@@ -17,6 +18,24 @@ class BookingController extends Controller
     public function __construct(BookingRepositoryInterface $bookingRepository)
     {
         $this->bookingRepository = $bookingRepository;
+        $this->middleware(function($request, $next) {
+            if (session('success')) {
+                Alert::success(session('success'));
+            } 
+            if (session('updated')) {
+                Alert::success(session('updated'));
+            }
+            if (session('error')) {
+                Alert::error(session('error'));
+            }
+            if (session('toggled')) {
+                Alert::success(session('toggled'));
+            }
+            if (session('deleted')) {
+                Alert::success(session('deleted'));
+            }
+            return $next($request);
+        });
     }
     public function index()
     {
@@ -72,12 +91,14 @@ class BookingController extends Controller
 
             DB::commit();
 
-            return redirect('admin/bookings')->with('success', 'New Booking Added!');
+            // return redirect('admin/bookings')->with('success', 'New Booking Added!');
+            session()->flash('success', 'New Booking Added!');
         } catch (\Exception $e) {
-            DB::rollback();
-
-            return back()->with('error', 'Failed to add new booking, Please try again');
+            // DB::rollback();
+            // return back()->with('error', 'Failed to add new booking, Please try again');
+            session()->flash('error', 'Error occurred while creating food: ' . $e->getMessage());
         }
+        return redirect('admin/bookings');
     }
 
 
@@ -135,12 +156,13 @@ class BookingController extends Controller
 
             DB::commit();
 
-            return redirect('admin/bookings')->with('success', 'Booking Updated Successfully!');
+            // return redirect('admin/bookings')->with('success', 'Booking Updated Successfully!');
+            session()->flash('updated', 'Booking Updated Successfully');
         } catch (\Exception $e) {
-            DB::rollback();
-
-            return back()->with('error', 'Failed to update booking. Please try again.');
+            // DB::rollback();
+            session()->flash('error', 'Error occurred while creating food: ' . $e->getMessage());
         }
+        return redirect('admin/bookings');
     }
 
     /**
@@ -150,7 +172,8 @@ class BookingController extends Controller
     {
         //
         $this->bookingRepository->destoryBooking($id);
-        return back()->with('deleted', 'Booking Deleted Successfully');
+        // return back()->with('deleted', 'Booking Deleted Successfully');
+        session()->flash('deleted', 'Booking Deleted Successfully');
     }
 
     public function search(Request $request, BookingRepositoryInterface $bookingRepository)
