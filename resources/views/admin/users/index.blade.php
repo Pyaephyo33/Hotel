@@ -21,11 +21,11 @@
                         <input type="text" name="search" class="input input-bordered btn-sm w-full" placeholder="Search">
                         <div class="flex space-x-2 mx-2">
                             <button type="submit" class="btn btn-outline btn-sm">Search</button>
-                            <a href="{{url('admin/users/create')}}" class="flex items-center btn btn-outline btn-sm btn-primary hover:text-white">
+                            {{-- <a href="{{url('admin/users/create')}}" class="flex items-center btn btn-outline btn-sm btn-primary hover:text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                                     <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
                                 </svg>
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
                 </form>
