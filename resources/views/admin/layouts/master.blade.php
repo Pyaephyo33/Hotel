@@ -97,9 +97,9 @@
           </div>
           <main>
             @include('sweetalert::alert')
-            <div class="p-6 px-4">
+            {{-- <div class="p-6 px-4">
                 <h2>testing</h2>
-            </div>
+            </div> --}}
              {{-- <div class="p-6 px-4"> --}}
                 {{-- <div class="w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
                    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
