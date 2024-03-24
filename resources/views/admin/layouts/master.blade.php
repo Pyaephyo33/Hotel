@@ -59,7 +59,7 @@
                      <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
                            <form method="POST" action="{{ route('logout') }}">
                               @csrf
-         
+
                               <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
@@ -97,6 +97,9 @@
           </div>
           <main>
             @include('sweetalert::alert')
+            <div class="p-6 px-4">
+                <h2>testing</h2>
+            </div>
              {{-- <div class="p-6 px-4"> --}}
                 {{-- <div class="w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
                    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
@@ -634,7 +637,7 @@
     </div>
 
     <script>
-      // for delete modal function 
+      // for delete modal function
 
       function submitDeleteForm(id) {
          // Trigger form submission
