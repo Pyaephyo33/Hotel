@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\{Permission, Role};
 
@@ -18,6 +19,24 @@ class RoleAndPermissionController extends Controller
     public function __construct()
     {
         // $this->middleware(['permission:all-menu|user-setting']);
+        $this->middleware(function($request, $next) {
+            if (session('success')) {
+                Alert::success(session('success'));
+            } 
+            if (session('updated')) {
+                Alert::success(session('updated'));
+            }
+            if (session('error')) {
+                Alert::error(session('error'));
+            }
+            if (session('toggled')) {
+                Alert::success(session('toggled'));
+            }
+            if (session('deleted')) {
+                Alert::success(session('deleted'));
+            }
+            return $next($request);
+        });
     }
     ## role index
     public function roleIndex()
@@ -48,19 +67,21 @@ class RoleAndPermissionController extends Controller
 
         if (empty($request->permission_ids)) {
             $role->syncPermissions([]);
-            return redirect('admin/roles')->with('success', 'No permissions assigned to the role.');
+            session()->flash('success', 'No Permission Assign to the role');
+            return redirect('admin/roles');
         }
 
         $permissions = Permission::whereIn('id', $request->permission_ids)->get();
 
         if ($permissions->count() !== count($request->permission_ids)) {
-            return redirect('admin/roles')->with('error', 'One or more permissions were not found.');
+            session()->flash('error', 'One or more permissions were not found');
+            return redirect('admin/roles');
         }
 
         // Sync permissions to the role
         $role->syncPermissions($permissions);
-
-        return redirect('admin/roles')->with('success', 'Permissions assigned successfully');
+        session()->flash('success', 'Permission assigned successfully');
+        return redirect('admin/roles');
     }
 
 
@@ -83,7 +104,8 @@ class RoleAndPermissionController extends Controller
         Role::create([
             'name' => $request->name,
         ]);
-        return redirect('admin/roles')->with('success', 'Successfully Created!');
+        session()->flash('success', 'Successfully Created!');
+        return redirect('admin/roles');
     }
 
 
@@ -116,7 +138,8 @@ class RoleAndPermissionController extends Controller
             'name' => 'required',
         ]);
         Role::findOrFail($id)->update($role);
-        return redirect('admin/roles')->with('updated', 'Successfully Updated!');
+        session()->flash('updated', 'Successfully Updated!');
+        return redirect('admin/roles');
     }
 
     /**
@@ -126,7 +149,8 @@ class RoleAndPermissionController extends Controller
     {
         $role = Role::findOrFail($id);
         $role->delete();
-        return back()->with('deleted', 'Successfully Deleted!');
+        session()->flash('deleted', 'Successfully Deleted');
+        return back();
     }
 
     public function search(Request $request)

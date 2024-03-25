@@ -3,7 +3,7 @@
 @section('subtitle', 'Role and Permission')
 @section('content')
 
-<x-flash-message />
+{{-- <x-flash-message /> --}}
 
 <form action="{{ url('admin/roles/permissions/assign') }}" method="post">
     @csrf

@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
@@ -19,6 +20,24 @@ class UserController extends Controller
     public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
+        $this->middleware(function($request, $next) {
+            if (session('success')) {
+                Alert::success(session('success'));
+            } 
+            if (session('updated')) {
+                Alert::success(session('updated'));
+            }
+            if (session('error')) {
+                Alert::error(session('error'));
+            }
+            if (session('toggled')) {
+                Alert::success(session('toggled'));
+            }
+            if (session('deleted')) {
+                Alert::success(session('deleted'));
+            }
+            return $next($request);
+        });
     }
     public function index()
     {
@@ -169,7 +188,8 @@ class UserController extends Controller
 
         // Check if the user exists
         if (!$user) {
-            return redirect('admin/users')->with('error', 'User not found.');
+            session()->flash('error', 'User not found');
+            return redirect('admin/users');
         }
 
         // Check if any role IDs were provided
@@ -182,7 +202,8 @@ class UserController extends Controller
 
             // Check if all role IDs were found
             if ($roles->count() !== count($roleIds)) {
-                return redirect('admin/users')->with('error', 'One or more roles were not found.');
+                session()->flash('error', 'One or more roles were not found');
+                return redirect('admin/users');
             }
 
             // Sync roles to the user
@@ -190,6 +211,7 @@ class UserController extends Controller
         }
 
         // Redirect back with a success message
+        session()->flash('success', 'Role Successfully Assigned!');
         return redirect('admin/users')->with('success', 'Roles assigned successfully');
     }
 
